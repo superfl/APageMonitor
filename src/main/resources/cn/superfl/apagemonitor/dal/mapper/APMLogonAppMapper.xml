@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.superfl.apagemonitor.dal.mapper.APMLogonAppMapper">
+  <resultMap id="BaseResultMap" type="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
+    <id column="logonId" jdbcType="BIGINT" property="logonid" />
+    <result column="logonApp" jdbcType="VARCHAR" property="logontype" />
+    <result column="logonType" jdbcType="VARCHAR" property="logontype" />
+    <result column="userId" jdbcType="BIGINT" property="userid" />
+    <result column="enableStatus" jdbcType="INTEGER" property="enablestatus" />
+    <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    logonId, logonApp, logonType, userId, enableStatus, createDate
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from APM_LogonAPP
+    where logonId = #{logonid,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from APM_LogonAPP
+    where logonId = #{logonid,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp" useGeneratedKeys="true" keyProperty="logonid" keyColumn="logonId">
+    insert into APM_LogonAPP (logonApp, logonType, userId,
+      enableStatus, createDate)
+    values (#{logonapp,jdbcType=VARCHAR}, #{logontype,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT},
+      #{enablestatus,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
+    insert into APM_LogonAPP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="logonid != null">
+        logonId,
+      </if>
+      <if test="logonapp != null">
+        logonApp,
+      </if>
+      <if test="logontype != null">
+        logonType,
+      </if>
+      <if test="userid != null">
+        userId,
+      </if>
+      <if test="enablestatus != null">
+        enableStatus,
+      </if>
+      <if test="createdate != null">
+        createDate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="logonid != null">
+        #{logonid,jdbcType=BIGINT},
+      </if>
+      <if test="logonapp != null">
+        #{logonapp,jdbcType=VARCHAR},
+      </if>
+      <if test="logontype != null">
+        #{logontype,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="enablestatus != null">
+        #{enablestatus,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null">
+        #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
+    update APM_LogonAPP
+    <set>
+      <if test="logonapp != null">
+        logonType = #{logonapp,jdbcType=VARCHAR},
+      </if>
+      <if test="logontype != null">
+        logonType = #{logontype,jdbcType=VARCHAR},
+      </if>
+      <if test="userid != null">
+        userId = #{userid,jdbcType=BIGINT},
+      </if>
+      <if test="enablestatus != null">
+        enableStatus = #{enablestatus,jdbcType=INTEGER},
+      </if>
+      <if test="createdate != null">
+        createDate = #{createdate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where logonId = #{logonid,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
+    update APM_LogonAPP
+    set logonApp = #{logonapp,jdbcType=VARCHAR},
+      logonType = #{logontype,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=BIGINT},
+      enableStatus = #{enablestatus,jdbcType=INTEGER},
+      createDate = #{createdate,jdbcType=TIMESTAMP}
+    where logonId = #{logonid,jdbcType=BIGINT}
+  </update>
+</mapper>

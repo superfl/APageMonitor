@@ -1,0 +1,13 @@
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <typeAliases>
+        <package name="cn.superfl.apagemonitor.dal.dao"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="dal/mapper/APMUserMapper.xml"/>
+        <mapper resource="dal/mapper/APMTaskMapper.xml"/>
+        <mapper resource="dal/mapper/APMLogonAppMapper.xml"/>
+    </mappers>
+</configuration>
