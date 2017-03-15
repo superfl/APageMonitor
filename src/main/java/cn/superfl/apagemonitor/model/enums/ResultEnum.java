@@ -15,6 +15,8 @@ public enum ResultEnum {
 
     SUCCESS(1000, "操作成功"),
 
+    UPDATE_DB_ERROR(2001, "更新DB失败"),
+
     SYSTEM_ERROR(9999, "稍候再试试");
 
     private int code;
