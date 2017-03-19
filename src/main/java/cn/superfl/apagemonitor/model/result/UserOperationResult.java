@@ -3,6 +3,7 @@
  */
 package cn.superfl.apagemonitor.model.result;
 
+import cn.superfl.apagemonitor.model.enums.ResultEnum;
 import cn.superfl.apagemonitor.model.user.UserInfo;
 
 /**
@@ -12,6 +13,22 @@ import cn.superfl.apagemonitor.model.user.UserInfo;
  * @version $Id: UserOperationResult.java, v 0.1 2017-03-14 上午11:10 superfl Exp $$
  */
 public class UserOperationResult extends BaseResult {
+
+    /**
+     * 根据ResultEnum构建结果
+     *
+     * @param resultEnum
+     * @return
+     */
+    public static UserOperationResult valueOfResult(ResultEnum resultEnum, UserInfo userInfo){
+        UserOperationResult baseResult = new UserOperationResult();
+        baseResult.setResultCode(resultEnum.getCode());
+        baseResult.setResultMsg(resultEnum.getMemo());
+        baseResult.setUserInfo(userInfo);
+        return baseResult;
+    }
+
+
 
     /** 用户信息 */
     private UserInfo userInfo;

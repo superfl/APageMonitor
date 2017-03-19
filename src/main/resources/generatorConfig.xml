@@ -38,8 +38,8 @@
     <!--生成对应表及类名-->
     <!--<table tableName="APM_User" domainObjectName="APMUser" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
     <!--<table tableName="APM_LogonAPP" domainObjectName="APMLogonApp" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-    <!--<table tableName="APM_Task" domainObjectName="APMTask" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
-    <table tableName="APM_Sequence" domainObjectName="APMSequence" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    <table tableName="APM_Task" domainObjectName="APMTask" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>
+    <!--<table tableName="APM_Sequence" domainObjectName="APMSequence" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false"></table>-->
 
   </context>
 

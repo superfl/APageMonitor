@@ -3,20 +3,17 @@
  */
 package cn.superfl.apagemonitor.service;
 
-import cn.superfl.apagemonitor.dal.dao.APMLogonApp;
-import cn.superfl.apagemonitor.dal.dao.APMUser;
-import cn.superfl.apagemonitor.dal.mapper.APMLogonAppMapper;
-import cn.superfl.apagemonitor.dal.mapper.APMUserMapper;
-import cn.superfl.apagemonitor.model.enums.EnableStatusEnum;
+import cn.superfl.apagemonitor.component.UserComponent;
+import cn.superfl.apagemonitor.model.APMException;
 import cn.superfl.apagemonitor.model.enums.ResultEnum;
+import cn.superfl.apagemonitor.model.enums.UserTypeEnum;
 import cn.superfl.apagemonitor.model.result.UserOperationResult;
-import cn.superfl.apagemonitor.model.user.LogonApp;
 import cn.superfl.apagemonitor.model.user.UserInfo;
+import cn.superfl.apagemonitor.util.LoggerUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Date;
 
 /**
  *
@@ -26,18 +23,11 @@ import java.util.Date;
 @Service
 public class UserManageServiceImpl implements UserManageService {
 
-    /**
-     * 用户表
-     */
-    @Autowired
-    private APMUserMapper apmUserMapper;
+    /** logger */
+    private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    /**
-     * 登录号表
-     */
     @Autowired
-    private APMLogonAppMapper apmLogonAppMapper;
-
+    private UserComponent userComponent;
 
     /**
      * 注册新的用户
@@ -46,41 +36,31 @@ public class UserManageServiceImpl implements UserManageService {
      * @return
      */
     @Override
-    @Transactional
     public UserOperationResult registerUser(String logonApp, String logonType, String password) {
-        // 新建用户
-        APMUser apmUser = new APMUser();
-        apmUser.setPassword(password);
-        apmUser.setEnablestatus(EnableStatusEnum.NORMAL.getStatusCode());
-        apmUser.setCreatedate(new Date());
-        apmUserMapper.insert(apmUser);
+        UserOperationResult userOperationResult;
+        try{
+            // 生成uid
+            String userId = userComponent.genUserId(UserTypeEnum.PERSON.getTypeCode());
 
-        // 新建登录号
-        APMLogonApp apmLogonApp = new APMLogonApp();
-        apmLogonApp.setLogonapp(logonApp);
-        apmLogonApp.setLogontype(logonType);
-        apmLogonApp.setUserid(apmUser.getUserid());
-        apmLogonApp.setEnablestatus(EnableStatusEnum.NORMAL.getStatusCode());
-        apmLogonApp.setCreatedate(new Date());
-        apmLogonAppMapper.insert(apmLogonApp);
+            // 注册
+            UserInfo userInfo = userComponent.createUser(userId, logonApp,logonType,password);
+            if (userInfo == null){
+                userOperationResult = UserOperationResult.valueOfResult(ResultEnum.SYSTEM_ERROR, null);
+            }else {
+                userOperationResult = UserOperationResult.valueOfResult(ResultEnum.SUCCESS, userInfo);
+            }
 
-        UserInfo userInfo = new UserInfo();
-        userInfo.setUserId(apmUser.getUserid());
-        userInfo.setEnablestatus(apmUser.getEnablestatus());
-        userInfo.setPassword(apmUser.getPassword());
-        userInfo.setCreatedate(apmUser.getCreatedate());
-
-        LogonApp logonAppModel = new LogonApp();
-        logonAppModel.setLogonapp(apmLogonApp.getLogonapp());
-        logonAppModel.setLogontype(apmLogonApp.getLogontype());
-        logonAppModel.setEnablestatus(apmLogonApp.getEnablestatus());
-        logonAppModel.setCreatedate(apmLogonApp.getCreatedate());
-
-        userInfo.getLogonAppList().add(logonAppModel);
-        UserOperationResult userOperationResult =new UserOperationResult();
-        userOperationResult.setResultCode(ResultEnum.SUCCESS.getCode());
-        userOperationResult.setResultMsg(ResultEnum.SUCCESS.getMemo());
-        userOperationResult.setUserInfo(userInfo);
+        }catch (APMException apmExp){
+            ResultEnum errorRes = ResultEnum.getByCode(apmExp.getResultCode());
+            userOperationResult = UserOperationResult.valueOfResult(errorRes, null);
+        }
+        catch (Throwable throwable){
+            LoggerUtil.error(logger, throwable, "operation error");
+            userOperationResult = UserOperationResult.valueOfResult(ResultEnum.SYSTEM_ERROR, null);
+        }
+        LoggerUtil.info(logger, "regist new user, logonapp:", logonApp, ",logontype:", logonType, ",result=",
+                userOperationResult);
         return userOperationResult;
     }
+
 }

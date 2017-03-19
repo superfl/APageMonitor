@@ -3,9 +3,11 @@ package cn.superfl.apagemonitor.dal.dao;
 import java.util.Date;
 
 public class APMTask {
-    private Long taskid;
+    private String taskid;
 
-    private Long userid;
+    private String tasktype;
+
+    private String userid;
 
     private String pageurl;
 
@@ -19,20 +21,28 @@ public class APMTask {
 
     private String pagecontent;
 
-    public Long getTaskid() {
+    public String getTaskid() {
         return taskid;
     }
 
-    public void setTaskid(Long taskid) {
-        this.taskid = taskid;
+    public void setTaskid(String taskid) {
+        this.taskid = taskid == null ? null : taskid.trim();
     }
 
-    public Long getUserid() {
+    public String getTasktype() {
+        return tasktype;
+    }
+
+    public void setTasktype(String tasktype) {
+        this.tasktype = tasktype == null ? null : tasktype.trim();
+    }
+
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 
     public String getPageurl() {

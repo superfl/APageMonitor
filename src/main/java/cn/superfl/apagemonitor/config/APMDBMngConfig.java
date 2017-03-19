@@ -4,7 +4,6 @@
 package cn.superfl.apagemonitor.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -21,9 +20,9 @@ import javax.sql.DataSource;
 @Configuration
 @ComponentScan
 public class APMDBMngConfig {
-
-    @Autowired
-    private DataSource dataSource;
+//
+//    @Autowired
+//    private DataSource dataSource;
 
     @Bean
     @ConfigurationProperties(prefix="spring.datasource")
@@ -33,6 +32,6 @@ public class APMDBMngConfig {
 
     @Bean
     public DataSourceTransactionManager transactionManager(){
-        return new DataSourceTransactionManager(dataSource);
+        return new DataSourceTransactionManager(dataSource());
     }
 }

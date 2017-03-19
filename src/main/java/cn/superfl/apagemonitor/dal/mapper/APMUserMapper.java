@@ -5,13 +5,13 @@ import org.apache.ibatis.annotations.Mapper;
 
 @Mapper
 public interface APMUserMapper {
-    int deleteByPrimaryKey(Long userid);
+    int deleteByPrimaryKey(String userid);
 
     int insert(APMUser record);
 
     int insertSelective(APMUser record);
 
-    APMUser selectByPrimaryKey(Long userid);
+    APMUser selectByPrimaryKey(String userid);
 
     int updateByPrimaryKeySelective(APMUser record);
 

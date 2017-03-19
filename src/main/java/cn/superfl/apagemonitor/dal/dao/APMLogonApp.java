@@ -5,11 +5,11 @@ import java.util.Date;
 public class APMLogonApp {
     private Long logonid;
 
-    private String logonapp;
-
     private String logontype;
 
-    private Long userid;
+    private String logonapp;
+
+    private String userid;
 
     private Integer enablestatus;
 
@@ -23,12 +23,6 @@ public class APMLogonApp {
         this.logonid = logonid;
     }
 
-    public String getLogonapp() { return logonapp; }
-
-    public void setLogonapp(String logonapp) {
-        this.logonapp = logonapp == null? null : logonapp.trim();
-    }
-
     public String getLogontype() {
         return logontype;
     }
@@ -37,12 +31,20 @@ public class APMLogonApp {
         this.logontype = logontype == null ? null : logontype.trim();
     }
 
-    public Long getUserid() {
+    public String getLogonapp() {
+        return logonapp;
+    }
+
+    public void setLogonapp(String logonapp) {
+        this.logonapp = logonapp == null ? null : logonapp.trim();
+    }
+
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 
     public Integer getEnablestatus() {
@@ -53,11 +55,11 @@ public class APMLogonApp {
         this.enablestatus = enablestatus;
     }
 
-    public void setCreatedate(Date createdate) {
-        this.createdate = createdate;
-    }
-
     public Date getCreatedate() {
         return createdate;
+    }
+
+    public void setCreatedate(Date createdate) {
+        this.createdate = createdate;
     }
 }

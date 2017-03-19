@@ -2,8 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.superfl.apagemonitor.dal.mapper.APMTaskMapper">
   <resultMap id="BaseResultMap" type="cn.superfl.apagemonitor.dal.dao.APMTask">
-    <id column="taskId" jdbcType="BIGINT" property="taskid" />
-    <result column="userId" jdbcType="BIGINT" property="userid" />
+    <id column="taskId" jdbcType="VARCHAR" property="taskid" />
+    <result column="taskType" jdbcType="VARCHAR" property="tasktype" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
     <result column="pageUrl" jdbcType="VARCHAR" property="pageurl" />
     <result column="contentChanged" jdbcType="TINYINT" property="contentchanged" />
     <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
@@ -14,36 +15,41 @@
     <result column="pageContent" jdbcType="LONGVARCHAR" property="pagecontent" />
   </resultMap>
   <sql id="Base_Column_List">
-    taskId, userId, pageUrl, contentChanged, createDate, changedDate, checkInterval
+    taskId, taskType, userId, pageUrl, contentChanged, createDate, changedDate, checkInterval
   </sql>
   <sql id="Blob_Column_List">
     pageContent
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from APM_Task
-    where taskId = #{taskid,jdbcType=BIGINT}
+    where taskId = #{taskid,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from APM_Task
-    where taskId = #{taskid,jdbcType=BIGINT}
+    where taskId = #{taskid,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="cn.superfl.apagemonitor.dal.dao.APMTask">
-    insert into APM_Task (taskId, userId, pageUrl, 
-      contentChanged, createDate, changedDate, 
-      checkInterval, pageContent)
-    values (#{taskid,jdbcType=BIGINT}, #{userid,jdbcType=BIGINT}, #{pageurl,jdbcType=VARCHAR}, 
-      #{contentchanged,jdbcType=TINYINT}, #{createdate,jdbcType=TIMESTAMP}, #{changeddate,jdbcType=TIMESTAMP}, 
-      #{checkinterval,jdbcType=INTEGER}, #{pagecontent,jdbcType=LONGVARCHAR})
+    insert into APM_Task (taskId, taskType, userId, 
+      pageUrl, contentChanged, createDate, 
+      changedDate, checkInterval, pageContent
+      )
+    values (#{taskid,jdbcType=VARCHAR}, #{tasktype,jdbcType=VARCHAR}, #{userid,jdbcType=VARCHAR}, 
+      #{pageurl,jdbcType=VARCHAR}, #{contentchanged,jdbcType=TINYINT}, #{createdate,jdbcType=TIMESTAMP}, 
+      #{changeddate,jdbcType=TIMESTAMP}, #{checkinterval,jdbcType=INTEGER}, #{pagecontent,jdbcType=LONGVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="cn.superfl.apagemonitor.dal.dao.APMTask">
     insert into APM_Task
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="taskid != null">
         taskId,
+      </if>
+      <if test="tasktype != null">
+        taskType,
       </if>
       <if test="userid != null">
         userId,
@@ -69,10 +75,13 @@
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="taskid != null">
-        #{taskid,jdbcType=BIGINT},
+        #{taskid,jdbcType=VARCHAR},
+      </if>
+      <if test="tasktype != null">
+        #{tasktype,jdbcType=VARCHAR},
       </if>
       <if test="userid != null">
-        #{userid,jdbcType=BIGINT},
+        #{userid,jdbcType=VARCHAR},
       </if>
       <if test="pageurl != null">
         #{pageurl,jdbcType=VARCHAR},
@@ -97,8 +106,11 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.superfl.apagemonitor.dal.dao.APMTask">
     update APM_Task
     <set>
+      <if test="tasktype != null">
+        taskType = #{tasktype,jdbcType=VARCHAR},
+      </if>
       <if test="userid != null">
-        userId = #{userid,jdbcType=BIGINT},
+        userId = #{userid,jdbcType=VARCHAR},
       </if>
       <if test="pageurl != null">
         pageUrl = #{pageurl,jdbcType=VARCHAR},
@@ -119,27 +131,29 @@
         pageContent = #{pagecontent,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where taskId = #{taskid,jdbcType=BIGINT}
+    where taskId = #{taskid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="cn.superfl.apagemonitor.dal.dao.APMTask">
     update APM_Task
-    set userId = #{userid,jdbcType=BIGINT},
+    set taskType = #{tasktype,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=VARCHAR},
       pageUrl = #{pageurl,jdbcType=VARCHAR},
       contentChanged = #{contentchanged,jdbcType=TINYINT},
       createDate = #{createdate,jdbcType=TIMESTAMP},
       changedDate = #{changeddate,jdbcType=TIMESTAMP},
       checkInterval = #{checkinterval,jdbcType=INTEGER},
       pageContent = #{pagecontent,jdbcType=LONGVARCHAR}
-    where taskId = #{taskid,jdbcType=BIGINT}
+    where taskId = #{taskid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.superfl.apagemonitor.dal.dao.APMTask">
     update APM_Task
-    set userId = #{userid,jdbcType=BIGINT},
+    set taskType = #{tasktype,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=VARCHAR},
       pageUrl = #{pageurl,jdbcType=VARCHAR},
       contentChanged = #{contentchanged,jdbcType=TINYINT},
       createDate = #{createdate,jdbcType=TIMESTAMP},
       changedDate = #{changeddate,jdbcType=TIMESTAMP},
       checkInterval = #{checkinterval,jdbcType=INTEGER}
-    where taskId = #{taskid,jdbcType=BIGINT}
+    where taskId = #{taskid,jdbcType=VARCHAR}
   </update>
 </mapper>

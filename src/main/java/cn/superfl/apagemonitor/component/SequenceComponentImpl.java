@@ -1,7 +1,7 @@
 /**
  * Copyright (c) 2004-2017 All Rights Reserved.
  */
-package cn.superfl.apagemonitor.service;
+package cn.superfl.apagemonitor.component;
 
 import cn.superfl.apagemonitor.dal.dao.APMSequence;
 import cn.superfl.apagemonitor.dal.mapper.APMSequenceMapper;
@@ -21,13 +21,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @version $Id: SequenceManageServiceImpl.java, v 0.1 2017-03-15 下午11:12 superfl Exp $$
  */
 @Service
-public class SequenceManageServiceImpl implements SequenceManageService {
+public class SequenceComponentImpl implements SequenceComponent {
 
     /** map */
     private ConcurrentHashMap<String, SequenceModel> sequenceMap = new ConcurrentHashMap<>();
 
     @Autowired
-    private APMSequenceMapper apmSequenceMapper;
+    private APMSequenceMapper aPMSequenceMapper;
 
     /**
      * 获取sequence
@@ -36,7 +36,8 @@ public class SequenceManageServiceImpl implements SequenceManageService {
 
      * @param sequenceName
      */
-    @Override public long getSequence(String sequenceName) {
+    @Override
+    public long getSequence(String sequenceName) {
         SequenceModel sequenceModel = sequenceMap.get(sequenceName);
         if (sequenceModel != null ){
             long seq = sequenceModel.getCurrentSequence();
@@ -62,7 +63,7 @@ public class SequenceManageServiceImpl implements SequenceManageService {
     @Transactional
     private SequenceModel getSequenceModelFromDB(String sequenceName){
         // 获取模型
-        APMSequence apmSequence = apmSequenceMapper.selectBySeqNameForUpdate(sequenceName);
+        APMSequence apmSequence = aPMSequenceMapper.selectBySeqNameForUpdate(sequenceName);
 
         // 计算当前seq范围
         long nextMaxSeq = apmSequence.getSeqvalue() + apmSequence.getSeqstep();
@@ -75,9 +76,9 @@ public class SequenceManageServiceImpl implements SequenceManageService {
         // 构造更新的sequence
         apmSequence.setSeqvalue(nextMaxSeq);
         apmSequence.setModifytime(new Date());
-        int updateResult = apmSequenceMapper.updateSeqValueBySeqName(apmSequence);
+        int updateResult = aPMSequenceMapper.updateSeqValueBySeqName(apmSequence);
         if (updateResult != 1){
-            throw new APMException(ResultEnum.UPDATE_DB_ERROR.getCode(), "更新Sequence表返回影响行数为"+updateResult);
+            throw new APMException(ResultEnum.UPDATE_DB_ERROR.getCode(), "更新Sequence表返回影响行数为" + updateResult);
         }
 
         // 构造返回的SequenceModel
@@ -86,5 +87,43 @@ public class SequenceManageServiceImpl implements SequenceManageService {
         sequenceModel.setCurrentSeqValue(currentSeq);
         sequenceModel.setMaxSeqValue(nextMaxSeq-1);
         return sequenceModel;
+    }
+
+    /**
+     * Getter method for property sequenceMap.
+     *
+     * @return property value of sequenceMap
+     */
+    public ConcurrentHashMap<String, SequenceModel> getSequenceMap() {
+        return sequenceMap;
+    }
+
+    /**
+     * Getter method for property aPMSequenceMapper.
+     *
+     * @return property value of aPMSequenceMapper
+     */
+    public APMSequenceMapper getaPMSequenceMapper() {
+        return aPMSequenceMapper;
+    }
+
+    /**
+     * Setter method for property aPMSequenceMapper.
+     *
+     * @param aPMSequenceMapper value to be assigned to property aPMSequenceMapper
+     */
+    public void setaPMSequenceMapper(APMSequenceMapper aPMSequenceMapper) {
+        this.aPMSequenceMapper = aPMSequenceMapper;
+    }
+
+
+
+    /**
+     * Setter method for property sequenceMap.
+     *
+     * @param sequenceMap value to be assigned to property sequenceMap
+     */
+    public void setSequenceMap(ConcurrentHashMap<String, SequenceModel> sequenceMap) {
+        this.sequenceMap = sequenceMap;
     }
 }

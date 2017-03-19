@@ -19,7 +19,7 @@ import java.util.List;
 public class UserInfo extends ToString{
 
     /** 用户id */
-    private long userId;
+    private String userId;
 
     /** 用户密码 */
     private String password;
@@ -34,21 +34,21 @@ public class UserInfo extends ToString{
     private List<LogonApp> logonAppList = new ArrayList<>();
 
     /**
-     * Setter method for property userId.
-     *
-     * @param userId value to be assigned to property userId
-     */
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    /**
      * Getter method for property userId.
      *
      * @return property value of userId
      */
-    public long getUserId() {
+    public String getUserId() {
         return userId;
+    }
+
+    /**
+     * Setter method for property userId.
+     *
+     * @param userId value to be assigned to property userId
+     */
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     /**

@@ -4,9 +4,9 @@
  */
 package cn.superfl.apagemonitor.controller;
 
-import cn.superfl.apagemonitor.model.enums.ResultEnum;
 import cn.superfl.apagemonitor.model.result.BaseResult;
 import cn.superfl.apagemonitor.service.UserManageService;
+import cn.superfl.apagemonitor.util.LoggerUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,15 +32,9 @@ public class UserController {
     public BaseResult register(@RequestParam(value = "logonApp", required = true) String logonApp,
                                @RequestParam(value = "logonType", required = true) String logonType,
                                @RequestParam(value = "password", required = true) String password) {
-        try {
-            BaseResult result = userManageService.registerUser(logonApp, logonType, password);
-            logger.info("regist success ", result);
-            return result;
-        }
-        catch (Throwable th){
-            logger.error("register error", th);
-            return BaseResult.valueOfResult(ResultEnum.SYSTEM_ERROR);
-        }
+        BaseResult result = userManageService.registerUser(logonApp, logonType, password);
+        LoggerUtil.info(logger, "regist finish, result:", result);
+        return result;
     }
 
 

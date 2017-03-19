@@ -3,14 +3,14 @@
 <mapper namespace="cn.superfl.apagemonitor.dal.mapper.APMLogonAppMapper">
   <resultMap id="BaseResultMap" type="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
     <id column="logonId" jdbcType="BIGINT" property="logonid" />
-    <result column="logonApp" jdbcType="VARCHAR" property="logontype" />
     <result column="logonType" jdbcType="VARCHAR" property="logontype" />
-    <result column="userId" jdbcType="BIGINT" property="userid" />
+    <result column="logonApp" jdbcType="VARCHAR" property="logonapp" />
+    <result column="userId" jdbcType="VARCHAR" property="userid" />
     <result column="enableStatus" jdbcType="INTEGER" property="enablestatus" />
     <result column="createDate" jdbcType="TIMESTAMP" property="createdate" />
   </resultMap>
   <sql id="Base_Column_List">
-    logonId, logonApp, logonType, userId, enableStatus, createDate
+    logonId, logonType, logonApp, userId, enableStatus, createDate
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -22,23 +22,27 @@
     delete from APM_LogonAPP
     where logonId = #{logonid,jdbcType=BIGINT}
   </delete>
+
   <insert id="insert" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp" useGeneratedKeys="true" keyProperty="logonid" keyColumn="logonId">
-    insert into APM_LogonAPP (logonApp, logonType, userId,
-      enableStatus, createDate)
-    values (#{logonapp,jdbcType=VARCHAR}, #{logontype,jdbcType=VARCHAR}, #{userid,jdbcType=BIGINT},
-      #{enablestatus,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP})
+    insert into APM_LogonAPP (logonType, logonApp,
+      userId, enableStatus, createDate
+      )
+    values (#{logontype,jdbcType=VARCHAR}, #{logonapp,jdbcType=VARCHAR},
+      #{userid,jdbcType=VARCHAR}, #{enablestatus,jdbcType=INTEGER}, #{createdate,jdbcType=TIMESTAMP}
+      )
   </insert>
+
   <insert id="insertSelective" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
     insert into APM_LogonAPP
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="logonid != null">
         logonId,
       </if>
-      <if test="logonapp != null">
-        logonApp,
-      </if>
       <if test="logontype != null">
         logonType,
+      </if>
+      <if test="logonapp != null">
+        logonApp,
       </if>
       <if test="userid != null">
         userId,
@@ -54,14 +58,14 @@
       <if test="logonid != null">
         #{logonid,jdbcType=BIGINT},
       </if>
-      <if test="logonapp != null">
-        #{logonapp,jdbcType=VARCHAR},
-      </if>
       <if test="logontype != null">
         #{logontype,jdbcType=VARCHAR},
       </if>
+      <if test="logonapp != null">
+        #{logonapp,jdbcType=VARCHAR},
+      </if>
       <if test="userid != null">
-        #{userid,jdbcType=BIGINT},
+        #{userid,jdbcType=VARCHAR},
       </if>
       <if test="enablestatus != null">
         #{enablestatus,jdbcType=INTEGER},
@@ -74,14 +78,14 @@
   <update id="updateByPrimaryKeySelective" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
     update APM_LogonAPP
     <set>
-      <if test="logonapp != null">
-        logonType = #{logonapp,jdbcType=VARCHAR},
-      </if>
       <if test="logontype != null">
         logonType = #{logontype,jdbcType=VARCHAR},
       </if>
+      <if test="logonapp != null">
+        logonApp = #{logonapp,jdbcType=VARCHAR},
+      </if>
       <if test="userid != null">
-        userId = #{userid,jdbcType=BIGINT},
+        userId = #{userid,jdbcType=VARCHAR},
       </if>
       <if test="enablestatus != null">
         enableStatus = #{enablestatus,jdbcType=INTEGER},
@@ -94,9 +98,9 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="cn.superfl.apagemonitor.dal.dao.APMLogonApp">
     update APM_LogonAPP
-    set logonApp = #{logonapp,jdbcType=VARCHAR},
-      logonType = #{logontype,jdbcType=VARCHAR},
-      userId = #{userid,jdbcType=BIGINT},
+    set logonType = #{logontype,jdbcType=VARCHAR},
+      logonApp = #{logonapp,jdbcType=VARCHAR},
+      userId = #{userid,jdbcType=VARCHAR},
       enableStatus = #{enablestatus,jdbcType=INTEGER},
       createDate = #{createdate,jdbcType=TIMESTAMP}
     where logonId = #{logonid,jdbcType=BIGINT}

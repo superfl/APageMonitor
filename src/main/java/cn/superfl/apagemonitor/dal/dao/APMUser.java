@@ -3,7 +3,7 @@ package cn.superfl.apagemonitor.dal.dao;
 import java.util.Date;
 
 public class APMUser {
-    private Long userid;
+    private String userid;
 
     private String password;
 
@@ -11,12 +11,12 @@ public class APMUser {
 
     private Date createdate;
 
-    public Long getUserid() {
+    public String getUserid() {
         return userid;
     }
 
-    public void setUserid(Long userid) {
-        this.userid = userid;
+    public void setUserid(String userid) {
+        this.userid = userid == null ? null : userid.trim();
     }
 
     public String getPassword() {
